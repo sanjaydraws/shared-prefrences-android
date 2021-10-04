@@ -1,0 +1,12 @@
+to save smaller data
+
+
+mode
+public  -> any other app can access our shared preferences from our app
+private -> not any other app can access
+append -> append to other apps
+
+
+
+commit -> will put data in synchronously ,will block the main thread
+appy -> will put data in asynchronously,doesn't block main thread
