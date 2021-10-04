@@ -13,10 +13,12 @@ object SharedPreferencesHelper {
 
     fun customSharedPref(context:Context?) = context?.getSharedPreferences("mySharedPref", Context.MODE_PRIVATE)
 
-    private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
+    private inline fun SharedPreferences.edit(perform: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()
-        operation(editor)
-        editor.apply()
+        editor.apply {
+            perform.invoke(editor)
+            apply()
+        }
     }
     operator fun SharedPreferences.set(key: String, value: Any?) {
         when (value) {
@@ -28,4 +30,16 @@ object SharedPreferencesHelper {
             else -> throw UnsupportedOperationException("Not yet implemented")
         }
     }
+//    inline operator fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T? = null): T? {
+//        // as? is a safe cast operator and so it returns null if type cast is failed.
+//        // ?: is an elvis operator.
+//        return when (T::class) {
+//            String::class -> getString(key, defaultValue as? String) as T?
+//            Int::class -> getInt(key, defaultValue as? Int ?: -1) as T?
+//            Boolean::class -> getBoolean(key, defaultValue as? Boolean ?: false) as T?
+//            Float::class -> getFloat(key, defaultValue as? Float ?: -1f) as T?
+//            Long::class -> getLong(key, defaultValue as? Long ?: -1) as T?
+//            else -> throw UnsupportedOperationException("Not yet implemented")
+//        }
+//    }
 }
