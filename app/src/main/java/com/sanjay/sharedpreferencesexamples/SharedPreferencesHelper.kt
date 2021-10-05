@@ -2,7 +2,7 @@ package com.sanjay.sharedpreferencesexamples
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import android.util.Log
 
 
 /**
@@ -20,6 +20,10 @@ object SharedPreferencesHelper {
             apply()
         }
     }
+
+    /**
+     * put data in shared preferences
+     */
     operator fun SharedPreferences.set(key: String, value: Any?) {
         when (value) {
             is String? -> edit { it.putString(key, value) }
@@ -42,4 +46,34 @@ object SharedPreferencesHelper {
 //            else -> throw UnsupportedOperationException("Not yet implemented")
 //        }
 //    }
+
+    /**
+     * retrieve all values from particular shared preferences
+     */
+    fun Context?.printAllKeyValuesOfSharedPref(){
+        val allEntries: Map<String, *>? = customSharedPref(this)?.all
+        if (allEntries != null) {
+            for ((key, value) in allEntries) {
+                Log.d("mapValues", "$key: $value")
+            }
+        }
+    }
+
+    /**
+     * Clears all data in SharedPreferences
+     */
+    fun clearPrefs(context: Context?) {
+        val editor: SharedPreferences.Editor? = customSharedPref(context)?.edit()
+        editor?.clear()
+        editor?.apply()
+    }
+
+    fun Context?.removeKey(key: String?) {
+        customSharedPref(this)?.edit()?.remove(key)?.apply()
+    }
+
+    fun Context?.containsKey(key: String?): Boolean? {
+        return customSharedPref(context = this)?.contains(key)
+    }
+
 }
