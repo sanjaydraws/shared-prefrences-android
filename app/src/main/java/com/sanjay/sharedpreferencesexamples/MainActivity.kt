@@ -5,8 +5,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.clearPrefs
 import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.customSharedPref
 import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.printAllKeyValuesOfSharedPref
+import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.removeKey
+import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.set
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
@@ -14,27 +17,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val sharePref = getSharedPreferences("myPref", Context.MODE_PRIVATE)
 
         val sharePref = customSharedPref(context = this)
-        val editor: SharedPreferences.Editor? = sharePref?.edit()
-
-//        // to save data
-        editor?.apply {
-            putString("name", "Justin")
-            putInt("age", 23)
-            putBoolean("isAdult", true)
-            apply()
+        sharePref?.apply {
+            set("name", "Justin")
+            set("age", 23)
+            set("isAdult", true)
         }
 
+        //sharePref?.removeKey("name")
 
-//        SharedPreferencesHelper.customSharedPref(context = this)?.set("firstKey","" )
-//        val firstKey = SharedPreferencesHelper.customSharedPref(context = this)?.get("firstKey", null)
-
-
-        editor?.clear()
-        editor?.apply()
-
+       // Log.d(TAG, "SHAREDPREF: ${sharePref?.contains("name")}") // true
+       // sharePref?.clearPrefs()
+       // Log.d(TAG, "SHAREDPREF: ${sharePref?.contains("name")}") // false
 
         // to get Data
         val name = sharePref?.getString("name", null)
@@ -42,13 +37,8 @@ class MainActivity : AppCompatActivity() {
         val isAdult= sharePref?.getBoolean("isAdult", false)
 
         Log.d(TAG, "SHAREDPREF: name: $name age: $age isAdult: $isAdult")
-//        Log.d(TAG, "SHAREDPREF: name: $firstKey")
+//      Log.d(TAG, "SHAREDPREF: name: $firstKey")
 
-        //retrieve all values from particular shared preference file
-       /* val allEntries: Map<String, *> = sharePref.all
-        for ((key, value) in allEntries) {
-            Log.d("mapValues", "$key: $value")
-        } */
 
 
 

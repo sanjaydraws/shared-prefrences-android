@@ -11,7 +11,9 @@ import android.util.Log
 * */
 object SharedPreferencesHelper {
 
-    fun customSharedPref(context:Context?) = context?.getSharedPreferences("mySharedPref", Context.MODE_PRIVATE)
+    private const val PREFS_PRIVATE_MODE = Context.MODE_PRIVATE
+
+    fun customSharedPref(context:Context?) = context?.getSharedPreferences("mySharedPref", PREFS_PRIVATE_MODE)
 
     private inline fun SharedPreferences.edit(perform: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()
@@ -62,18 +64,23 @@ object SharedPreferencesHelper {
     /**
      * Clears all data in SharedPreferences
      */
-    fun clearPrefs(context: Context?) {
-        val editor: SharedPreferences.Editor? = customSharedPref(context)?.edit()
-        editor?.clear()
-        editor?.apply()
+    fun SharedPreferences.clearPrefs() {
+        edit {
+            it.clear()
+        }
     }
 
-    fun Context?.removeKey(key: String?) {
-        customSharedPref(this)?.edit()?.remove(key)?.apply()
+    /**
+    *  it removes keys , will get default value
+    * */
+    fun SharedPreferences.removeKey(key: String?) {
+        edit{
+            it.remove(key)
+        }
     }
 
-    fun Context?.containsKey(key: String?): Boolean? {
-        return customSharedPref(context = this)?.contains(key)
+    fun SharedPreferences.containsKey(key: String?): Boolean? {
+        return this.contains(key)
     }
 
 }

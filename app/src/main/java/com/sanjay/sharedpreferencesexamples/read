@@ -10,3 +10,29 @@ append -> append to other apps
 
 commit -> will put data in synchronously ,will block the main thread
 appy -> will put data in asynchronously,doesn't block main thread
+================================================
+
+val sharePref = getSharedPreferences("myPref", Context.MODE_PRIVATE)
+val editor: SharedPreferences.Editor? = sharePref?.edit()
+
+ // to save data
+        editor?.apply {
+            putString("name", "Justin")
+            putInt("age", 23)
+            putBoolean("isAdult", true)
+            apply()
+        }
+
+  editor?.clear()
+  editor?.apply()
+
+        //retrieve all values from particular shared preference file
+         /* val allEntries: Map<String, *> = sharePref.all
+          for ((key, value) in allEntries) {
+              Log.d("mapValues", "$key: $value")
+          } */
+
+        // to get Data
+        val name = sharePref?.getString("name", null)
+        val age = sharePref?.getInt("age", 0)
+        val isAdult= sharePref?.getBoolean("isAdult", false)
