@@ -1,21 +1,22 @@
 package com.sanjay.sharedpreferencesexamples
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.clearPrefs
-import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.customSharedPref
-import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.printAllKeyValuesOfSharedPref
-import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.removeKey
-import com.sanjay.sharedpreferencesexamples.SharedPreferencesHelper.set
+import com.sanjay.sharedpreferencesexamples.utils.SharedPreferencesHelper.customSharedPref
+import com.sanjay.sharedpreferencesexamples.utils.SharedPreferencesHelper.getObject
+import com.sanjay.sharedpreferencesexamples.utils.SharedPreferencesHelper.set
+import com.sanjay.sharedpreferencesexamples.utils.SharedPreferencesHelper.setObject
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val userData = UserData("JB", 23, listOf(2,3,4))
+
+
 
 
         val sharePref = customSharedPref(context = this)
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity() {
 //      Log.d(TAG, "SHAREDPREF: name: $firstKey")
 
 
-
+        sharePref?.setObject("UserData",userData )
+        val user: UserData? = sharePref?.getObject("UserData",UserData::class.java)
+//        Log.d(TAG, "onCreate: UserData", user)
 
     }
 }

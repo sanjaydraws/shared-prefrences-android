@@ -1,12 +1,13 @@
-package com.sanjay.sharedpreferencesexamples
+package com.sanjay.sharedpreferencesexamples.utils
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.google.gson.Gson
 
 
 /**
-* Created By Sanjay Prajapat
+* @author : Sanjay Prajapat
 * Date - 4-sept-2021 11:23 PM
 * */
 object SharedPreferencesHelper {
@@ -83,4 +84,14 @@ object SharedPreferencesHelper {
         return this.contains(key)
     }
 
+    fun <T> SharedPreferences.setObject(key: String? , objectData:T) {
+         val  jsonValue  = Gson().toJson(objectData)
+        edit{
+            it.putString(key, jsonValue)
+        }
+    }
+    fun <T> SharedPreferences.getObject(key: String?, t: Class<T>): T? {
+        val jsonValue = this.getString(key, "")
+        return Gson().fromJson(jsonValue, t)
+    }
 }
