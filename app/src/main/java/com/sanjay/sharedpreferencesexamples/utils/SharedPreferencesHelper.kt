@@ -16,6 +16,7 @@ object SharedPreferencesHelper {
 
     fun customSharedPref(context:Context?) = context?.getSharedPreferences("mySharedPref", PREFS_PRIVATE_MODE)
 
+
     private inline fun SharedPreferences.edit(perform: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()
         editor.apply {
@@ -53,8 +54,8 @@ object SharedPreferencesHelper {
     /**
      * retrieve all values from particular shared preferences
      */
-    fun Context?.printAllKeyValuesOfSharedPref(){
-        val allEntries: Map<String, *>? = customSharedPref(this)?.all
+    fun SharedPreferences?.printAllKeyValuesOfSharedPref(){
+        val allEntries: Map<String, *>? = this?.all
         if (allEntries != null) {
             for ((key, value) in allEntries) {
                 Log.d("mapValues", "$key: $value")
